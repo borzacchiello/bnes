@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define DEFAULT_CFG_NAME "borznes_cfg.txt"
+#define DEFAULT_CFG_NAME "bnes_cfg.txt"
 
 #define CFG_P1_A           "p1_A"
 #define CFG_P1_B           "p1_B"

@@ -43,7 +43,7 @@ static void calculate_and_show_fps(SDL_Window* win)
 
         long   dt  = get_timestamp_milliseconds() - prev_timestamp;
         double fps = 1000.0l * fps_counter_max / dt;
-        sprintf(fps_str, "borzNES - latency: %ld ms - fps: %.03lf", latency,
+        sprintf(fps_str, "bnes - latency: %ld ms - fps: %.03lf", latency,
                 fps);
         SDL_SetWindowTitle(win, fps_str);
         prev_timestamp = get_timestamp_milliseconds();

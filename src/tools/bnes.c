@@ -18,9 +18,9 @@
 #define REWIND_BUF_SIZE      100
 
 #ifdef __MINGW32__
-#define REWIND_DIR "borznes_rewind_states"
+#define REWIND_DIR "bnes_rewind_states"
 #else
-#define REWIND_DIR "/tmp/borznes_rewind_states"
+#define REWIND_DIR "/tmp/bnes_rewind_states"
 #endif
 
 typedef enum { NORMAL_MODE, DEBUG_MODE, REWIND_MODE } EmulationMode;

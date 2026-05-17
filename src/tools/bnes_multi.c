@@ -25,7 +25,7 @@
 
 #define DELTA_MS_TO_WAIT     5000
 #define SLEEP_BETWEEN_FRAMES 0
-#define BORZNES_DEFAULT_PORT 54000
+#define bnes_DEFAULT_PORT 54000
 
 typedef enum EmuState { DRAW_FRAME, WAIT_FOR_KEY, WAIT_UNTIL_READY } EmuState;
 
@@ -36,7 +36,7 @@ static void usage(const char* prog)
     fprintf(stderr,
             "USAGE: %s <game.rom> [ <peer_ip> ]\n"
             "   if <peer_ip> is not specified, listen on %d\n",
-            prog, BORZNES_DEFAULT_PORT);
+            prog, bnes_DEFAULT_PORT);
     exit(1);
 }
 
@@ -121,7 +121,7 @@ int main(int argc, char const* argv[])
         printf("Hello player 1! Waiting for player 2 to connect\n");
 
         is_p1 = 1;
-        fd2   = open_p1_socket(BORZNES_DEFAULT_PORT);
+        fd2   = open_p1_socket(bnes_DEFAULT_PORT);
 
         struct sockaddr_in client_addr;
 #ifdef __MINGW32__
@@ -138,7 +138,7 @@ int main(int argc, char const* argv[])
 
         static char magic[8];
         if (sync_recv(fd1, &magic, 7) != 7 ||
-            memcmp(magic, "borzNES", 7) != 0) {
+            memcmp(magic, "bnes", 7) != 0) {
             panic("handshake failed (msg=\"%s\")", magic);
         }
 
@@ -162,8 +162,8 @@ int main(int argc, char const* argv[])
         printf("Hello player 2! Trying to connect to %s\n", argv[2]);
 
         is_p1 = 0;
-        fd1   = open_p2_socket(argv[2], BORZNES_DEFAULT_PORT);
-        if (sync_send(fd1, "borzNES", 7) != 7)
+        fd1   = open_p2_socket(argv[2], bnes_DEFAULT_PORT);
+        if (sync_send(fd1, "bnes", 7) != 7)
             panic("write failed");
         printf("connected!\n");
 

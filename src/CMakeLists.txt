@@ -1,6 +1,6 @@
 cmake_minimum_required ( VERSION 3.19 )
 
-project ( borzNES )
+project ( bnes )
 
 option ( ASAN "Compile with asan (only for debug builds)" OFF )
 option ( WIN  "Cross-compile for Windows" OFF )
@@ -24,7 +24,7 @@ set ( mappers_src
     mappers/071_camerica.c
     mappers/163_fc001.c )
 
-set ( borzNES_src
+set ( bnes_src
     6502_cpu.c
     apu.c
     alloc.c
@@ -71,17 +71,17 @@ if ( WIN )
     link_directories ( ${WIN_SDL2}/lib )
 endif ()
 
-add_executable ( borznes_multi
-    ${borzNES_src}
+add_executable ( bnes_multi
+    ${bnes_src}
     logging.c
     async.c
-    tools/borznes_multi.c )
+    tools/bnes_multi.c )
 
-add_executable ( borznes
-    ${borzNES_src}
+add_executable ( bnes
+    ${bnes_src}
     logging.c
     async.c
-    tools/borznes.c )
+    tools/bnes.c )
 
 add_executable ( rom_info
     alloc.c
@@ -90,46 +90,46 @@ add_executable ( rom_info
     tools/rom_info.c )
 
 add_executable ( define_keys
-    ${borzNES_src}
+    ${bnes_src}
     logging.c
     tools/define_keys.c )
 
-target_link_libraries ( borznes LINK_PUBLIC SDL2 SDL2_ttf )
-target_link_libraries ( borznes_multi LINK_PUBLIC SDL2 SDL2_ttf )
+target_link_libraries ( bnes LINK_PUBLIC SDL2 SDL2_ttf )
+target_link_libraries ( bnes_multi LINK_PUBLIC SDL2 SDL2_ttf )
 target_link_libraries ( define_keys LINK_PUBLIC SDL2 SDL2_ttf )
 
 if ( WIN )
-    target_link_libraries ( borznes_multi LINK_PUBLIC ws2_32 pthread )
-    target_link_libraries ( borznes LINK_PUBLIC ws2_32 pthread )
+    target_link_libraries ( bnes_multi LINK_PUBLIC ws2_32 pthread )
+    target_link_libraries ( bnes LINK_PUBLIC ws2_32 pthread )
 endif ()
 
 add_custom_command (
-    TARGET borznes POST_BUILD
+    TARGET bnes POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
             ${CMAKE_SOURCE_DIR}/../resources/courier.ttf
             ${CMAKE_CURRENT_BINARY_DIR}/courier.ttf )
 
 add_custom_command (
-    TARGET borznes POST_BUILD
+    TARGET bnes POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
-            ${CMAKE_SOURCE_DIR}/../resources/borznes_cfg.txt
-            ${CMAKE_CURRENT_BINARY_DIR}/borznes_cfg.txt )
+            ${CMAKE_SOURCE_DIR}/../resources/bnes_cfg.txt
+            ${CMAKE_CURRENT_BINARY_DIR}/bnes_cfg.txt )
 
 if ( WIN )
     add_custom_command (
-        TARGET borznes POST_BUILD
+        TARGET bnes POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${WIN_SDL2}/bin/SDL2.dll
                 ${CMAKE_CURRENT_BINARY_DIR}/SDL2.dll )
 
     add_custom_command (
-        TARGET borznes POST_BUILD
+        TARGET bnes POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${WIN_SDL2}/bin/SDL2_ttf.dll
                 ${CMAKE_CURRENT_BINARY_DIR}/SDL2_ttf.dll )
 
     add_custom_command (
-        TARGET borznes_multi POST_BUILD
+        TARGET bnes_multi POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
                 /usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll
                 ${CMAKE_CURRENT_BINARY_DIR}/libwinpthread-1.dll )
@@ -137,19 +137,19 @@ endif ()
 
 if ( CIFUZZ )
     add_fuzz_test ( system_fuzz_test
-        ${borzNES_src}
+        ${bnes_src}
         tests/system_fuzz_test.c )
 
     target_link_libraries ( system_fuzz_test LINK_PUBLIC SDL2 SDL2_ttf )
 
     add_fuzz_test ( cpu_fuzz_test
-        ${borzNES_src}
+        ${bnes_src}
         tests/cpu_fuzz_test.c )
 
     target_link_libraries ( cpu_fuzz_test LINK_PUBLIC SDL2 SDL2_ttf )
 
     add_fuzz_test ( load_state_fuzz_test
-        ${borzNES_src}
+        ${bnes_src}
         tests/load_state_fuzz_test.c )
 
     target_link_libraries ( load_state_fuzz_test LINK_PUBLIC SDL2 SDL2_ttf )

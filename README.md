@@ -1,4 +1,4 @@
-# borzNES
+# bnes
 
 Yet another NES emulator, written just for fun :)
 
@@ -43,7 +43,7 @@ $ make
 From the build directory:
 
 ```
-$ ./borznes /path/to/rom
+$ ./bnes /path/to/rom
 ```
 
 beware that it expects "courier.ttf" in the pwd (yeah, it's ugly).
@@ -52,14 +52,14 @@ beware that it expects "courier.ttf" in the pwd (yeah, it's ugly).
 
 On Machine 1:
 ```
-$ ./borznes_multi /path/to/rom
+$ ./bnes_multi /path/to/rom
 ```
 
 The program will wait for a connection on port 54000.
 
 On Machine 2:
 ```
-$ ./borznes_multi /path/to/rom 10.0.0.1
+$ ./bnes_multi /path/to/rom 10.0.0.1
 ```
 
 where `10.0.0.1` is the IP of Machine 1.
